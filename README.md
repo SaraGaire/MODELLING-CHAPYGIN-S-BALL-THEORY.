@@ -22,3 +22,31 @@ a
 a = vector from the center of mass to the contact point.
 
 This was  named after Sergey Chaplygin (1897), who first derived the motion.
+The Chaplygin ball system is a nonholonomic system;This makes it non-Hamiltonian in the standard sense, but remarkably, the system can be reduced to a Hamiltonian form using a Chaplygin reducing multiplier (a time reparametrization technique).
+The equations of motion are typically written as:
+
+M˙=M×ω
+M
+˙
+=M×ω
+γ˙=γ×ω
+γ
+˙
+	​
+
+=γ×ω
+
+where:
+
+M
+M = angular momentum about the contact point,
+
+γ
+γ = unit vertical vector,
+
+ω=I−1M
+ω=I
+−1
+M depends on the inertia tensor 
+I
+I.
