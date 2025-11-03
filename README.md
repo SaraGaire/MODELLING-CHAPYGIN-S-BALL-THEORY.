@@ -69,10 +69,7 @@ I=diag(I
 	​
 
 ,I
-3
-	​
-
-).
+3).
 
 Rotation matrix body→world: 
 Q∈SO(3)
