@@ -50,3 +50,93 @@ M = angular momentum about the contact point,
 M depends on the inertia tensor 
 I
 I.
+Notation (used in all models)
+
+Radius: 
+R
+R, mass: 
+m
+m.
+
+Inertia in the body frame at the center of mass (CoM): 
+I=diag(I1,I2,I3)
+I=diag(I
+1
+	​
+
+,I
+2
+	​
+
+,I
+3
+	​
+
+).
+
+Rotation matrix body→world: 
+Q∈SO(3)
+Q∈SO(3). (Rows/cols orthonormal, 
+det⁡Q=1
+detQ=1.)
+
+Body angular velocity: 
+ω∈R3
+ω∈R
+3
+. World angular velocity: 
+Ω=Q ω
+Ω=Qω.
+
+Unit vertical in world: 
+e3=(0,0,1)T
+e
+3
+	​
+
+=(0,0,1)
+T
+. Vertical as seen in the body: 
+γ=QTe3
+γ=Q
+T
+e
+3
+	​
+
+ (so 
+∣γ∣=1
+∣γ∣=1).
+
+Skew operator: for 
+a∈R3
+a∈R
+3
+, 
+[a]×
+[a]
+×
+	​
+
+ is the 
+3×3
+3×3 skew matrix with 
+[a]×b=a×b
+[a]
+×
+	​
+
+b=a×b.
+
+No-slip rolling on the plane 
+z=0
+z=0:
+
+r˙=− R e3×Ω  =  − R Q (γ×ω)(center position r=(x,y,R)).
+r
+˙
+=−Re
+3
+	​
+
+×Ω=−RQ(γ×ω)(center position r=(x,y,R)).
