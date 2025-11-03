@@ -137,3 +137,14 @@ r
 	​
 
 ×Ω=−RQ(γ×ω)(center position r=(x,y,R)).
+
+The three modeling levels
+Model A — Full nonholonomic (Chaplygin ball)
+
+Mass matrix depends on attitude via 
+γ
+γ. Angular momentum about the contact point:
+
+M  =  (I+mR2(I3−γγT))⏟A(γ) ω.
+M=
+A(γ)
