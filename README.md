@@ -148,3 +148,16 @@ Mass matrix depends on attitude via
 M  =  (I+mR2(I3−γγT))⏟A(γ) ω.
 M=
 A(γ)
+# Chaplygin Ball Simulation
+
+An educational simulation of the **Chaplygin ball** (nonholonomic rolling sphere).
+
+## Features
+- Model 1: mathematical baseline (vectors + simple plot)
+- Model 2: physics/numerics with RK45, CSV export, 3D attitude animation
+- Ready for teaching, reports, or UI integration
+
+## Install (dev)
+```bash
+pip install -e .
+
