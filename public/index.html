@@ -1,0 +1,102 @@
+import React, { useState, useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Sphere, Stats } from "@react-three/drei";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer, CartesianGrid } from "recharts";
+
+function RotatingBall({ omega, hoverTime }: { omega: number; hoverTime: number | null }) {
+  const meshRef = useRef<any>();
+  const t0 = useRef(0);
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += omega * delta;
+    }
+  });
+  return (
+    <Sphere ref={meshRef} args={[1, 32, 32]}>
+      <meshStandardMaterial map={null} color="#87CEEB" />
+    </Sphere>
+  );
+}
+
+export default function ChaplyginBall_Final() {
+  const [hoverTime, setHoverTime] = useState<number | null>(null);
+  const [omega, setOmega] = useState(1.0);
+  const [trace, setTrace] = useState<{ t: number; x: number; y: number; z: number }[]>([]);
+  const [omegaTrace, setOmegaTrace] = useState<{ t: number; wx: number; wy: number; wz: number }[]>([]);
+
+  // simple fake data for demo
+  useMemo(() => {
+    const pts = [];
+    const wpts = [];
+    for (let t = 0; t < 10; t += 0.1) {
+      pts.push({ t, x: Math.cos(t), y: Math.sin(t), z: 0 });
+      wpts.push({ t, wx: Math.sin(t), wy: Math.cos(t), wz: 0.5 * Math.sin(2 * t) });
+    }
+    setTrace(pts);
+    setOmegaTrace(wpts);
+  }, []);
+
+  const handleTooltip = (state: any) => {
+    if (state && state.active && state.label !== undefined) setHoverTime(state.label);
+    else setHoverTime(null);
+    return null;
+  };
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      {/* Left: 3D Sphere */}
+      <div className="border rounded-lg bg-white p-2">
+        <Canvas camera={{ position: [3, 3, 3] }}>
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} />
+          <RotatingBall omega={omega} hoverTime={hoverTime} />
+          <OrbitControls />
+          <Stats />
+        </Canvas>
+        <div className="flex justify-between mt-2">
+          <label>ω (rotation speed)</label>
+          <input
+            type="range"
+            min="0"
+            max="5"
+            step="0.1"
+            value={omega}
+            onChange={(e) => setOmega(parseFloat(e.target.value))}
+          />
+        </div>
+      </div>
+
+      {/* Right: Charts */}
+      <div className="border rounded-lg bg-white p-2">
+        <h3 className="font-semibold mb-1">Trajectory</h3>
+        <ResponsiveContainer width="100%" height={150}>
+          <LineChart data={trace} onMouseMove={handleTooltip} onMouseLeave={() => setHoverTime(null)}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="t" />
+            <YAxis />
+            <Tooltip content={handleTooltip} />
+            {hoverTime !== null && <ReferenceLine x={hoverTime} stroke="black" strokeDasharray="2 2" />}
+            <Line type="monotone" dataKey="x" stroke="#8884d8" dot={false} />
+            <Line type="monotone" dataKey="y" stroke="#82ca9d" dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+
+        <h3 className="font-semibold mt-4 mb-1">Angular Velocity</h3>
+        <ResponsiveContainer width="100%" height={150}>
+          <LineChart data={omegaTrace} onMouseMove={handleTooltip} onMouseLeave={() => setHoverTime(null)}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="t" />
+            <YAxis />
+            <Tooltip content={handleTooltip} />
+            {hoverTime !== null && <ReferenceLine x={hoverTime} stroke="black" strokeDasharray="2 2" />}
+            <Line type="monotone" dataKey="wx" stroke="#ff6b6b" dot={false} />
+            <Line type="monotone" dataKey="wy" stroke="#51cf66" dot={false} />
+            <Line type="monotone" dataKey="wz" stroke="#339af0" dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+
+        {hoverTime !== null && <p className="text-xs text-gray-500">t = {hoverTime.toFixed(2)} s</p>}
+      </div>
+    </div>
+  );
+}
